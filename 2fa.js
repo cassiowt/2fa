@@ -162,10 +162,11 @@ app.post("/api/validate", (req, res) => {
 })
 
 //GENERATE QRCODE
-app.get("/api/qrcode", (req, res) => {
-    const id = "29f9ad19-279e-45ff-a49b-b40a66427034"
+app.post("/api/qrcode", (req, res) => {
+    const {token, userID} = req.body
     try {
-        const path = `/user/${id}`
+        const path = `/user/${userID}`
+        console.log({token, userID})
         const user = db.getData(path)
         console.log(user.temp_secret.otpauth_url)
         /*   const imageQRCode = async () => {
@@ -174,14 +175,11 @@ app.get("/api/qrcode", (req, res) => {
         // With promises
         QRCode.toDataURL(user.temp_secret.otpauth_url)
             .then(url => {
-                res.write('<html>');
-                res.write('<body>');
-                res.write('<h1> QRCode</h1>');
-                res.write(
-                    "<img src='" + url + "'></img>"
-                )
-                res.write('</html>');
-                res.write('</body>');
+                res.send('<html>'
+                 + '<body>'
+                + '<h1> QRCode</h1>'
+                + "<img src='" + url + "'></img>"
+                + '</html>'+ '</body>');
             })
             .catch(err => {
                 console.error(err)
