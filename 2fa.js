@@ -100,7 +100,8 @@ app.post("/api/verify", (req, res) => {
         const verified = speakeasy.totp.verify({
             secret,
             encoding: 'base32',
-            token: token
+            token: token,
+            window: 6
         });
 
         if (verified) {
@@ -180,6 +181,59 @@ app.post("/api/qrcode", (req, res) => {
                 + '<h1> QRCode</h1>'
                 + "<img src='" + url + "'></img>"
                 + '</html>'+ '</body>');
+            })
+            .catch(err => {
+                console.error(err)
+            })
+
+    } catch (error) {
+        res.status(500).json({
+            status: 500,
+            message: "ERRO " + error,
+        })
+    }
+})
+
+//GENERATE QRCODE
+app.get("/api/user/:id", (req, res) => {
+
+    try {
+
+        const path = `/user/` + req.params.id
+        console.log(path)
+        const user = db.getData(path)
+        console.log(user.temp_secret.otpauth_url)
+        /*   const imageQRCode = async () => {
+               return QRcode.toDataURL(user.temp_secret.otpauth_url)
+           }*/
+        // With promises
+        QRCode.toDataURL(user.temp_secret.otpauth_url)
+            .then(url => {
+                res.send(`<!DOCTYPE html>
+                 <html>
+                    <head>
+                        <style>
+                            body {
+                                background-color: white;
+                            }
+                            h1 {
+                                color: #312d2d;
+                                padding: 60px;
+                            } 
+                             .center {
+                                display: block;
+                                margin-left: auto;
+                                margin-right: auto;
+                                width: 50%  
+                            }
+                       </style>
+                    </head>
+                    <body>
+                        <h1> QRCode</h1>
+                        <img class="center" src=" `  + url + `"></img>
+                    </body>
+                </html>
+                `)
             })
             .catch(err => {
                 console.error(err)
