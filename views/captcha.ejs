@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>reCAPTCHA demo: Simple page</title>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container"><br/>
+    <h1>Google Recaptcha Tutorial</h1><br/>
+    <h2>Recaptcha-v2</h2>
+    <form action="/api/captcha1" method="POST">
+        <div class="g-recaptcha" data-sitekey="6Lffc2EbAAAAACiRVxd1EGGdKAP6eU2d_YHdJp72"></div>
+        <br/>
+        <input  type="submit" class="btn btn-success" style="margin-left:38px" value="Submit">
+    </form>
+    <h2>Recaptcha-v3</h2>
+    <form method="post" action="/api/captcha">
+        <input type="hidden" id="g-recaptcha-response" name="g-recaptcha-response">
+        <input type="hidden" name="action" value="validate_captcha">
+        <div class="row">
+            <div class="form-group col-md-4">
+                <label for="name">Name:</label>
+                <input type="text" class="form-control" name="name">
+                <br/>
+                <button type="submit" class="btn btn-success" style="margin-left:38px">Send</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script src="https://www.google.com/recaptcha/api.js?render=6Lffc2EbAAAAACiRVxd1EGGdKAP6eU2d_YHdJp72"></script>
+<script>
+    grecaptcha.ready(function () {
+        // do request for recaptcha token
+        // response is promise with passed token
+        grecaptcha.execute('your reCAPTCHA site key here', {action: 'validate_captcha'})
+            .then(function (token) {
+                // add token value to form
+                document.getElementById('g-recaptcha-response').value = token;
+            });
+    });
+</script>
+
+</body>
+</html>

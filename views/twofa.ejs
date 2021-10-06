@@ -14,12 +14,23 @@
 <body>
 <div class="container-fluid">
     <div class="row justify-content-md-center">
-        <div class="card text-white bg-info" style="width: 25rem;">
-            <img class="card-img-bottom" src="../public/img/2fa.png" alt="2fa">
+        <div class="car bg-info" style="width: 25rem;">
+            <img class="card-img-bottom" src="../public/img/fundo.jpeg" alt="" onclick="/api">
             <div class="card-body">
-                <h4 class="card-title">Welcone! Two Factor Authentication </h4>
-                <p class="card-text">for Cássio</p>
-                <a href="/api/twofa" class="btn btn-dark">Let's Go</a>
+                <h4 class="card-title">Add User </h4>
+                <p class="card-text"></p>
+                <form method="post"  action="/api/register">
+                    <div class="form-group">
+                        <label for="">User</label>
+                        <input type="text" name="name" id="name" class="form-control" placeholder="" aria-describedby="helpId">
+                    </div>
+                    <div class="form-group">
+                        <label for="">Password</label>
+                        <input type="text" name="senha" id="senha" class="form-control" placeholder="" aria-describedby="helpId">
+                        <small id="helpId" class="text-muted">Use special characters, more than 8 digits, and numbers</small>
+                    </div>
+                    <button class="btn btn-primary">Submit</button>
+                </form>
             </div>
         </div>
     </div>
